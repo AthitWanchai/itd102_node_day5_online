@@ -1,5 +1,5 @@
 module.exports = (sequelize, dataType) => {
-    const db = require(".");
+    const db = require("../models");
     const Employee = db.employee;
     const Project = db.project;
 
