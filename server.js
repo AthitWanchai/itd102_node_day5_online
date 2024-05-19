@@ -17,9 +17,10 @@ app.get('/', function(req, res){
     res.send('Default Route');
 });
 
-require("./app/routes/employee.route")(app);
-require("./app/routes/company.route")(app);
-require("./app/routes/project.route")(app);
+
+require("./app/routes/university.route")(app);
+require("./app/routes/student.route")(app);
+require("./app/routes/student_university.route")(app);
 
 app.listen(PORT, function(){
     console.log(`Server is running on port ${PORT}`);

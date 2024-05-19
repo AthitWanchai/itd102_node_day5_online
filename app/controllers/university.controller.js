@@ -1,14 +1,16 @@
 const db = require("../models");
-const Employee = db.employee;
-const Setting = db.setting;
+const Student = db.student;
+const University =db.university;
 
-exports.findAllEmployee = (req, res) => {
+
+
+exports.findAllUniversity = (req, res) => {
     try {
-        Employee.findAll({
+        University.findAll({
             include: [
                 {
-                    model: Setting,
-                    attributes: ["theme"]
+                    model: Student,
+                    attributes: ["name"]
                 }
             ]
         })
@@ -23,28 +25,21 @@ exports.findAllEmployee = (req, res) => {
     }
 };
 
-exports.insertEmployee = (req, res) => {
+exports.createUniversity = (req, res) => {
     try {
-        if (!req.body.name || !req.body.position) {
+        if (!req.body.name ) {
             res.status(400).json({
-                message: "Content cannot be empty!"
+                message: "University cannot be empty!"
             });
             return;
         }
-        const newEmployee = {
+        const newUniversity = {
             name: req.body.name,
-            position: req.body.position,
-            companyId: req.body.companyId
         };
 
-        Employee.create(newEmployee)
+        University.create(newUniversity)
             .then(data => {
-                Setting.create({
-                    theme: req.body.theme,
-                    employeeId: data.id
-                });
-
-                res.status(200).json({ message: "Employee created." });
+                res.status(200).json({ message: "University created." });
             })
             .catch(err => {
                 res.status(500).json({ message: err.message });
@@ -55,10 +50,17 @@ exports.insertEmployee = (req, res) => {
     }
 };
 
-exports.findEmployeeById = (req, res) => {
+exports.findUniversityId = (req, res) => {
     try {
         const id = req.params.id;
-        Employee.findByPk(id)
+        University.findByPk(id,{
+            include: [
+                {
+                    model: Student,
+                    attributes: ["name"]
+                }
+            ]
+        })
             .then(data => {
                 if (data) {
                     res.status(200).json(data);
@@ -76,17 +78,17 @@ exports.findEmployeeById = (req, res) => {
     }
 };
 
-exports.updateEmployeeById = (req, res) => {
+exports.updateUniversityById = (req, res) => {
     try {
         const id = req.params.id;
 
-        const updateEmployee = {
+        const updateUniversity = {
             name: req.body.name,
             position: req.body.position,
             companyId: req.body.companyId
         };
 
-        Employee.update(updateEmployee, { where: { id: id } })
+        University.update(updateUniversity, { where: { id: id } })
             .then(data => {
                 if (data == 1) {
                     res.status(200).json({
@@ -106,10 +108,10 @@ exports.updateEmployeeById = (req, res) => {
     }
 };
 
-exports.deleteEmployeeById = (req, res) => {
+exports.deleteUniversityById = (req, res) => {
     try {
         const id = req.params.id;
-        Employee.destroy({ where: { id:id } })
+        University.destroy({ where: { id:id } })
         .then( data => {
             if(data == 1){
                 res.status(200).json({

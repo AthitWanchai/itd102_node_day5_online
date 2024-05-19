@@ -16,36 +16,19 @@ const db = {};
 db.dataType = dataType;
 db.sequelize = sequelize;
 
-db.employee = require("./employee.model.js")(sequelize, dataType);
-db.setting = require("./setting.model.js")(sequelize, dataType);
-db.company = require("./company.model.js")(sequelize, dataType);
-db.project = require("./project.model.js")(sequelize, dataType);
-db.employee_project = require("./employee_project.model.js")(sequelize, dataType);
-
-// one-to-one
-db.employee.hasOne(db.setting, {
-  onDelete: 'CASCADE'
-});
-db.setting.belongsTo(db.employee);
-
-// one-to-many
-db.company.hasMany(db.employee,{
-  foreignKey: "companyId",
-  onDelete: 'CASCADE'
-});
-db.employee.belongsTo(db.company,{
-  foreignKey: "companyId"
-});
+db.student = require("./student.model.js")(sequelize, dataType);
+db.university = require("./university.model.js")(sequelize, dataType);
+db.student_university = require("./student_university.model.js")(sequelize, dataType);
 
 // many-to-many
-db.employee.belongsToMany(db.project, {
-  through: "employee_project",
-  foreignKey: "employeeId",
+db.student.belongsToMany(db.university, {
+  through: "student_university",
+  foreignKey: "studentId",
   onDelete: 'CASCADE'
 });
-db.project.belongsToMany(db.employee, {
-  through: "employee_project",
-  foreignKey: "projectId",
+db.university.belongsToMany(db.student, {
+  through: "student_university",
+  foreignKey: "universityId",
   onDelete: 'CASCADE'
 });
 

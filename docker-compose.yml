@@ -13,7 +13,7 @@ services:
     container_name: pgadmin4_itd102
     image: dpage/pgadmin4
     environment:
-      PGADMIN_DEFAULT_EMAIL: gomes.ma@northbkk.ac.th
+      PGADMIN_DEFAULT_EMAIL: athit.wanc@northbkk.ac.th
       PGADMIN_DEFAULT_PASSWORD: 1234
     ports:
       - "8080:80"
